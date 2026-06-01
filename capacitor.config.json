@@ -1,0 +1,6 @@
+{
+  "appId": "br.com.financeiroplus.app",
+  "appName": "Financeiro+",
+  "webDir": ".",
+  "bundledWebRuntime": false
+}

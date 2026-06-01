@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Financeiro+</title>
+  <meta name="theme-color" content="#07110c">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app">
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <div class="brand-logo">F+</div>
+      <div>
+        <h2>Financeiro+</h2>
+        <p>Controle hoje. Construa amanhã.</p>
+      </div>
+    </div>
+
+    <button type="button" data-aba="dashboard" onclick="mostrarAba('dashboard')" class="nav-btn ativo" id="btnDashboard">Visão Geral</button>
+    <button type="button" data-aba="receitas" onclick="mostrarAba('receitas')" class="nav-btn" id="btnReceitas">Receitas</button>
+    <button type="button" data-aba="comissoes" onclick="mostrarAba('comissoes')" class="nav-btn" id="btnComissoes">Rendas Extras</button>
+    <button type="button" data-aba="despesas" onclick="mostrarAba('despesas')" class="nav-btn" id="btnDespesas">Despesas</button>
+    <button type="button" data-aba="parcelas" onclick="mostrarAba('parcelas')" class="nav-btn" id="btnParcelas">Parcelas</button>
+    <button type="button" data-aba="caixa" onclick="mostrarAba('caixa')" class="nav-btn" id="btnCaixa">Caixa</button>
+    <button type="button" data-aba="investimentos" onclick="mostrarAba('investimentos')" class="nav-btn" id="btnInvestimentos">Investimentos</button>
+    <button type="button" data-aba="objetivos" onclick="mostrarAba('objetivos')" class="nav-btn" id="btnObjetivos">Objetivos</button>
+    <button type="button" data-aba="configuracoes" onclick="mostrarAba('configuracoes')" class="nav-btn" id="btnConfiguracoes">Mais</button>
+  </aside>
+  <div class="sidebar-overlay" onclick="alternarMenuMobile()"></div>
+
+  <main class="conteudo">
+    <header class="mobile-header">
+      <div class="mobile-brand"><span>F+</span> Financeiro+</div>
+      <button type="button" class="menu-toggle" onclick="alternarMenuMobile()" aria-label="Abrir menu">Menu</button>
+    </header>
+
+    <header class="topo">
+      <div>
+        <h1>Financeiro+</h1>
+        <p>Controle hoje. Construa amanhã.</p>
+      </div>
+
+      <div class="topo-acoes">
+        <div class="mes-box">
+          <label>Mês</label>
+          <input type="month" id="mesAtual" onchange="atualizarTela()">
+        </div>
+        <button type="button" onclick="exportarDashboardPDF()" class="btn-pdf">Exportar PDF</button>
+      </div>
+    </header>
+
+    <section id="dashboard" class="aba">
+      <div id="areaRelatorio">
+        <div class="hero-card">
+          <div class="hero-topo">
+            <div>
+              <span class="eyebrow">Visão financeira</span>
+              <strong id="patrimonioTotalHero">R$ 0,00</strong>
+              <small id="patrimonioVariacaoHero">Saldo, reserva, objetivos e investimentos em um só lugar</small>
+            </div>
+            <div class="hero-periodo">Este mês</div>
+          </div>
+          <div class="hero-chart" id="heroChart"></div>
+        </div>
+
+        <div class="cards">
+          <div class="card entrada"><span>Receitas fixas</span><strong id="receitasFixas">R$ 0,00</strong></div>
+          <div class="card comissao"><span>Rendas extras</span><strong id="comissaoMes">R$ 0,00</strong></div>
+          <div class="card aparelhos"><span>Lançamentos extras</span><strong id="aparelhosVendidos">0</strong></div>
+          <div class="card despesa"><span>Despesas fixas</span><strong id="despesasFixas">R$ 0,00</strong></div>
+          <div class="card parcela"><span>Parcelas do mês</span><strong id="parcelasMes">R$ 0,00</strong></div>
+          <div class="card reserva"><span>Caixa emergencial</span><strong id="reservaDashboard">R$ 0,00</strong></div>
+          <div class="card investimento"><span>Investimentos</span><strong id="investimentosDashboard">R$ 0,00</strong></div>
+          <div class="card objetivo"><span>Objetivos guardados</span><strong id="objetivosGuardados">R$ 0,00</strong></div>
+          <div class="card saldo"><span>Saldo disponível</span><strong id="saldoDisponivel">R$ 0,00</strong></div>
+        </div>
+
+        <div class="reserva-card dashboard-reserva">
+          <div class="reserva-topo">
+            <div>
+              <h2>Caixa Emergencial</h2>
+              <p>Reserva calculada com base nas receitas fixas cadastradas e no objetivo configurado.</p>
+            </div>
+            <strong id="reservaPercentualDashboard">0%</strong>
+          </div>
+          <div class="reserva-grid">
+            <div><span>Meta da reserva</span><strong id="reservaMetaDashboard">R$ 0,00</strong></div>
+            <div><span>Despesas mensais</span><strong id="reservaDespesasDashboard">R$ 0,00</strong></div>
+            <div><span>Valor reservado</span><strong id="reservaAtualDashboard">R$ 0,00</strong></div>
+            <div><span>Valor faltante</span><strong id="reservaFaltanteDashboard">R$ 0,00</strong></div>
+            <div><span>Aporte sugerido</span><strong id="reservaAporteDashboard">R$ 0,00</strong></div>
+          </div>
+          <div class="meta-barra"><div id="barraReservaDashboard"></div></div>
+        </div>
+
+        <div class="grafico-card">
+          <h2>Resumo do mês</h2>
+          <div class="linha-grafico"><span>Entradas</span><div class="barra"><div id="barraEntradas"></div></div><strong id="labelEntradas">R$ 0,00</strong></div>
+          <div class="linha-grafico"><span>Saídas</span><div class="barra"><div id="barraDespesas"></div></div><strong id="labelDespesas">R$ 0,00</strong></div>
+          <div class="linha-grafico"><span>Saldo</span><div class="barra"><div id="barraSaldo"></div></div><strong id="labelSaldo">R$ 0,00</strong></div>
+        </div>
+
+        <div class="patrimonio-card">
+          <div class="patrimonio-topo">
+            <div>
+              <h2>Evolução patrimonial</h2>
+              <p>Projeção acumulada a partir do saldo mensal, da reserva e dos objetivos cadastrados.</p>
+            </div>
+          </div>
+          <div id="graficoPatrimonio" class="patrimonio-grafico"></div>
+        </div>
+
+        <div class="investimentos-card dashboard-investimentos">
+          <div class="investimentos-topo">
+            <div>
+              <h2>Investimentos</h2>
+              <p>Carteira estimada com base na quantidade cadastrada e na última cotação informada ou consultada.</p>
+            </div>
+            <strong id="investimentosTotalDashboard">R$ 0,00</strong>
+          </div>
+          <div class="investimentos-resumo">
+            <div id="graficoPizzaInvestimentos" class="donut-chart"><span>0%</span></div>
+            <div id="listaResumoInvestimentos" class="investimentos-legenda"></div>
+          </div>
+        </div>
+
+        <div class="objetivos-card">
+          <h2>Objetivos financeiros</h2>
+          <div id="listaObjetivosDashboard" class="objetivos-dashboard"></div>
+        </div>
+
+        <div class="historico-card">
+          <h2>Histórico deste mês em diante</h2>
+          <div class="tabela-area">
+            <table>
+              <thead><tr><th>Mês</th><th>Receitas</th><th>Rendas extras</th><th>Saídas</th><th>Saldo</th><th>Lançamentos extras</th></tr></thead>
+              <tbody id="listaHistorico"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="receitas" class="aba oculto">
+      <div class="painel">
+        <h2>Receitas fixas mensais</h2>
+        <div class="formulario">
+          <input type="text" id="descricaoReceita" placeholder="Ex: Salário principal">
+          <input type="text" inputmode="decimal" id="valorReceita" placeholder="Valor mensal">
+          <button type="button" onclick="salvarReceita()" id="btnSalvarReceita">Adicionar</button>
+          <button type="button" onclick="cancelarEdicaoReceita()" id="btnCancelarReceita" class="cinza oculto">Cancelar</button>
+        </div>
+        <div class="tabela-area">
+          <table><thead><tr><th>Descrição</th><th>Valor mensal</th><th>Ações</th></tr></thead><tbody id="listaReceitas"></tbody></table>
+        </div>
+      </div>
+    </section>
+
+    <section id="comissoes" class="aba oculto">
+      <div class="painel">
+        <h2>Rendas extras</h2>
+        <p class="aviso painel-descricao">Cadastre os recebimentos extras do mês. Os tipos e valores são definidos na aba Configurações.</p>
+        <div class="formulario">
+          <input type="date" id="dataComissao">
+          <select id="tipoRendaExtra"></select>
+          <input type="text" inputmode="decimal" id="qtdExtra" placeholder="Quantidade">
+          <button type="button" onclick="salvarComissao()" id="btnSalvarComissao">Adicionar</button>
+          <button type="button" onclick="cancelarEdicaoComissao()" id="btnCancelarComissao" class="cinza oculto">Cancelar</button>
+        </div>
+        <div class="tabela-area">
+          <table><thead><tr><th>Data</th><th>Renda extra</th><th>Quantidade</th><th>Valor unitário</th><th>Total</th><th>Ações</th></tr></thead><tbody id="listaComissoes"></tbody></table>
+        </div>
+      </div>
+    </section>
+
+    <section id="despesas" class="aba oculto">
+      <div class="painel">
+        <h2>Despesas fixas mensais</h2>
+        <div class="formulario">
+          <input type="text" id="descricaoDespesa" placeholder="Ex: Internet">
+          <select id="categoriaDespesa">
+            <option value="Moradia">Moradia</option><option value="Mercado">Mercado</option><option value="Internet">Internet</option><option value="Energia">Energia</option><option value="Transporte">Transporte</option><option value="Cartão">Cartão</option><option value="Creche">Creche</option><option value="Lazer">Lazer</option><option value="Outros">Outros</option>
+          </select>
+          <input type="text" inputmode="decimal" id="valorDespesa" placeholder="Valor mensal">
+          <button type="button" onclick="salvarDespesa()" id="btnSalvarDespesa">Adicionar</button>
+          <button type="button" onclick="cancelarEdicaoDespesa()" id="btnCancelarDespesa" class="cinza oculto">Cancelar</button>
+        </div>
+        <div class="tabela-area">
+          <table><thead><tr><th>Descrição</th><th>Categoria</th><th>Valor mensal</th><th>Ações</th></tr></thead><tbody id="listaDespesas"></tbody></table>
+        </div>
+      </div>
+    </section>
+
+    <section id="parcelas" class="aba oculto">
+      <div class="painel">
+        <h2>Parcelas e custos temporários</h2>
+        <div class="formulario">
+          <input type="text" id="descricaoParcela" placeholder="Ex: Compra no cartão">
+          <input type="month" id="inicioParcela">
+          <input type="text" inputmode="decimal" id="valorParcela" placeholder="Valor da parcela">
+          <input type="text" inputmode="decimal" id="qtdParcelas" placeholder="Quantidade de parcelas">
+          <button type="button" onclick="salvarParcela()" id="btnSalvarParcela">Adicionar</button>
+          <button type="button" onclick="cancelarEdicaoParcela()" id="btnCancelarParcela" class="cinza oculto">Cancelar</button>
+        </div>
+        <div class="tabela-area">
+          <table><thead><tr><th>Descrição</th><th>Início</th><th>Valor</th><th>Parcelas</th><th>Status no mês</th><th>Total restante</th><th>Ações</th></tr></thead><tbody id="listaParcelas"></tbody></table>
+        </div>
+      </div>
+    </section>
+
+    <section id="caixa" class="aba oculto">
+      <div class="painel">
+        <h2>Caixa Emergencial</h2>
+        <p class="aviso painel-descricao">Defina a meta da sua reserva, informe quanto já possui guardado e escolha qual percentual das receitas fixas será destinado para esse caixa.</p>
+        <div class="formulario caixa-form">
+          <select id="reservaTipoMeta">
+            <option value="fixo">Meta em valor fixo</option>
+            <option value="percentual">Meta em porcentagem das receitas fixas</option>
+            <option value="meses">Meta por meses de despesas</option>
+          </select>
+          <input type="text" inputmode="decimal" id="reservaValorMeta" placeholder="Valor, percentual ou meses">
+          <input type="text" inputmode="decimal" id="reservaSaldoAtual" placeholder="Valor já reservado">
+          <input type="text" inputmode="decimal" id="reservaAportePercentual" placeholder="Aporte mensal em % das receitas">
+          <button type="button" onclick="salvarCaixaEmergencial()">Salvar caixa emergencial</button>
+        </div>
+        <div class="reserva-card">
+          <div class="reserva-topo">
+            <div>
+              <h2>Status da reserva</h2>
+              <p id="reservaDescricao">Configure sua reserva para iniciar o acompanhamento.</p>
+            </div>
+            <strong id="reservaPercentual">0%</strong>
+          </div>
+          <div class="reserva-grid">
+            <div><span>Receitas fixas</span><strong id="reservaReceitas">R$ 0,00</strong></div>
+            <div><span>Despesas mensais</span><strong id="reservaDespesas">R$ 0,00</strong></div>
+            <div><span>Meta calculada</span><strong id="reservaMeta">R$ 0,00</strong></div>
+            <div><span>Guardado</span><strong id="reservaAtual">R$ 0,00</strong></div>
+            <div><span>Faltam</span><strong id="reservaFaltam">R$ 0,00</strong></div>
+            <div><span>Aporte mensal</span><strong id="reservaAporte">R$ 0,00</strong></div>
+            <div><span>Previsão</span><strong id="reservaPrevisao">Sem previsão</strong></div>
+          </div>
+          <div class="meta-barra"><div id="barraReserva"></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="investimentos" class="aba oculto">
+      <div class="painel">
+        <h2>Investimentos</h2>
+        <p class="aviso painel-descricao">Cadastre seus ativos, informe a quantidade e atualize as cotações para calcular automaticamente o valor estimado da carteira.</p>
+        <div class="formulario investimentos-form">
+          <input type="text" id="tickerInvestimento" placeholder="Ex: PETR4, ITUB4, BOVA11" autocomplete="off">
+          <input type="text" inputmode="decimal" id="qtdInvestimento" placeholder="Quantidade">
+          <input type="text" inputmode="decimal" id="precoMedioInvestimento" placeholder="Preço médio de compra">
+          <input type="text" inputmode="decimal" id="precoAtualInvestimento" placeholder="Preço atual, opcional">
+          <select id="categoriaInvestimento">
+            <option value="Ação">Ação</option>
+            <option value="FII">FII</option>
+            <option value="ETF">ETF</option>
+            <option value="BDR">BDR</option>
+            <option value="Cripto">Cripto</option>
+            <option value="Renda Fixa">Renda Fixa</option>
+            <option value="Outros">Outros</option>
+          </select>
+          <button type="button" onclick="salvarInvestimento()" id="btnSalvarInvestimento">Adicionar</button>
+          <button type="button" onclick="cancelarEdicaoInvestimento()" id="btnCancelarInvestimento" class="cinza oculto">Cancelar</button>
+          <button type="button" onclick="atualizarCotacoesInvestimentos()" class="btn-secundario">Atualizar cotações</button>
+        </div>
+        <div class="investimentos-alerta">
+          <strong>Importante:</strong> a consulta online usa o ticker informado. Para ações brasileiras, use códigos como PETR4, ITUB4, BOVA11 ou MXRF11. Se a cotação online falhar, informe o preço atual manualmente.
+        </div>
+        <div class="investimentos-card">
+          <div class="investimentos-topo">
+            <div>
+              <h2>Carteira estimada</h2>
+              <p id="investimentosStatus">Nenhum ativo cadastrado ainda.</p>
+            </div>
+            <strong id="investimentosTotal">R$ 0,00</strong>
+          </div>
+          <div class="investimentos-resumo">
+            <div id="graficoPizzaInvestimentosAba" class="donut-chart"><span>0%</span></div>
+            <div id="listaResumoInvestimentosAba" class="investimentos-legenda"></div>
+          </div>
+        </div>
+        <div class="tabela-area">
+          <table><thead><tr><th>Ativo</th><th>Categoria</th><th>Quantidade</th><th>Preço médio</th><th>Preço atual</th><th>Valor atual</th><th>Resultado</th><th>Ações</th></tr></thead><tbody id="listaInvestimentos"></tbody></table>
+        </div>
+      </div>
+    </section>
+
+    <section id="objetivos" class="aba oculto">
+      <div class="painel">
+        <h2>Objetivos financeiros</h2>
+        <div class="formulario">
+          <input type="text" id="nomeObjetivo" placeholder="Ex: Apartamento">
+          <input type="text" inputmode="decimal" id="valorAlvoObjetivo" placeholder="Valor alvo">
+          <input type="text" inputmode="decimal" id="valorAtualObjetivo" placeholder="Valor já guardado">
+          <input type="text" inputmode="decimal" id="aporteMensalObjetivo" placeholder="Aporte mensal planejado">
+          <button type="button" onclick="salvarObjetivo()" id="btnSalvarObjetivo">Adicionar</button>
+          <button type="button" onclick="cancelarEdicaoObjetivo()" id="btnCancelarObjetivo" class="cinza oculto">Cancelar</button>
+        </div>
+        <div class="tabela-area">
+          <table><thead><tr><th>Objetivo</th><th>Valor alvo</th><th>Guardado</th><th>Faltam</th><th>Aporte mensal</th><th>Previsão</th><th>Ações</th></tr></thead><tbody id="listaObjetivos"></tbody></table>
+        </div>
+      </div>
+    </section>
+
+    <section id="configuracoes" class="aba oculto">
+      <div class="painel">
+        <h2>Configurações</h2>
+        <p class="aviso painel-descricao">Configure os tipos de renda extra e seus valores unitários.</p>
+        <div class="formulario">
+          <input type="text" id="nomeRendaExtraConfig" placeholder="Ex: Comissão, freela, bônus">
+          <input type="text" inputmode="decimal" id="valorRendaExtraConfig" placeholder="Valor unitário">
+          <button type="button" onclick="salvarTipoRendaExtra()" id="btnSalvarTipoRendaExtra">Adicionar renda extra</button>
+          <button type="button" onclick="cancelarEdicaoTipoRendaExtra()" id="btnCancelarTipoRendaExtra" class="cinza oculto">Cancelar</button>
+        </div>
+        <div class="tabela-area tabela-config">
+          <table><thead><tr><th>Renda extra</th><th>Valor unitário</th><th>Ações</th></tr></thead><tbody id="listaTiposRendaExtra"></tbody></table>
+        </div>
+        <div class="config-bloco">
+          <h3>Integração de investimentos</h3>
+          <p class="aviso">Esta integração ficará para uma fase futura. Por enquanto, mantenha os investimentos de forma manual para evitar dependência de hospedagem e API.</p>
+          <div class="formulario">
+            <input type="text" id="configTokenCotacao" placeholder="Token de cotação, uso futuro">
+            <button type="button" onclick="salvarTokenCotacao()">Salvar token</button>
+          </div>
+        </div>
+        <div class="config-bloco backup-bloco">
+          <h3>Backup dos dados</h3>
+          <p class="aviso">Exporte um arquivo de segurança antes de grandes alterações ou antes de testar em outro celular. Para restaurar, importe o arquivo gerado pelo Financeiro+.</p>
+          <div class="backup-actions">
+            <button type="button" onclick="exportarDadosFinanceiro()">Exportar backup</button>
+            <button type="button" onclick="document.getElementById('arquivoBackupFinanceiro').click()" class="btn-secundario">Importar backup</button>
+            <input type="file" id="arquivoBackupFinanceiro" accept="application/json,.json" class="arquivo-oculto" onchange="importarDadosArquivo(event)">
+          </div>
+          <p class="backup-status" id="backupStatus">Nenhum backup importado nesta sessão.</p>
+        </div>
+
+      </div>
+    </section>
+  </main>
+    <nav class="bottom-nav" aria-label="Navegação principal">
+      <button type="button" data-aba="dashboard" onclick="mostrarAba('dashboard')" class="ativo"><span>Início</span></button>
+      <button type="button" data-aba="comissoes" onclick="mostrarAba('comissoes')"><span>Fluxo</span></button>
+      <button type="button" data-aba="investimentos" onclick="mostrarAba('investimentos')"><span>Investir</span></button>
+      <button type="button" data-aba="caixa" onclick="mostrarAba('caixa')"><span>Caixa</span></button>
+      <button type="button" data-aba="configuracoes" onclick="mostrarAba('configuracoes')"><span>Mais</span></button>
+    </nav>
+
+</div>
+
+<script src="script.js"></script>
+<script>
+(function limparServiceWorkerAntigo() {
+  if (!("serviceWorker" in navigator)) return;
+  if (localStorage.getItem("financeiroServiceWorkerRemovido") === "sim") return;
+  navigator.serviceWorker.getRegistrations()
+    .then(registrations => Promise.all(registrations.map(reg => reg.unregister())))
+    .then(() => {
+      if (!("caches" in window)) return;
+      return caches.keys().then(keys => Promise.all(keys.map(key => caches.delete(key))));
+    })
+    .then(() => {
+      localStorage.setItem("financeiroServiceWorkerRemovido", "sim");
+      location.reload();
+    })
+    .catch(() => localStorage.setItem("financeiroServiceWorkerRemovido", "sim"));
+})();
+</script>
+<div id="toastAviso" class="toast-aviso" role="status"></div>
+</body>
+</html>

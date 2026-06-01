@@ -1,0 +1,19 @@
+{
+  "name": "financeiro-plus",
+  "version": "0.9.0",
+  "private": true,
+  "description": "Financeiro+ mobile web app",
+  "scripts": {
+    "android:init": "npx cap add android",
+    "ios:init": "npx cap add ios",
+    "sync": "npx cap sync"
+  },
+  "dependencies": {
+    "@capacitor/android": "latest",
+    "@capacitor/core": "latest",
+    "@capacitor/ios": "latest"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "latest"
+  }
+}
