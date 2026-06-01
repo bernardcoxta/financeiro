@@ -446,3 +446,59 @@ input, select, button { position: relative; z-index: 1; }
   .mobile-header { padding-top: calc(8px + env(safe-area-inset-top)); }
   .bottom-nav { bottom: calc(10px + env(safe-area-inset-bottom)); }
 }
+
+
+/* ===== v10: menu único no celular ===== */
+.bottom-nav {
+  display: none !important;
+}
+
+@media (max-width: 850px) {
+  .conteudo {
+    padding-bottom: 28px !important;
+  }
+
+  .painel {
+    scroll-margin-bottom: 32px !important;
+  }
+
+  .mobile-header {
+    box-shadow: 0 10px 30px rgba(0,0,0,.22);
+  }
+
+  .menu-toggle {
+    font-weight: 800;
+    letter-spacing: -.2px;
+  }
+
+  .sidebar {
+    width: min(86vw, 340px);
+    padding: calc(18px + env(safe-area-inset-top)) 18px 18px;
+    box-shadow: 24px 0 60px rgba(0,0,0,.42);
+  }
+
+  .sidebar .brand {
+    margin-bottom: 18px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .sidebar .brand h2 {
+    font-size: 22px;
+  }
+
+  .sidebar .brand p {
+    font-size: 12px;
+  }
+
+  .nav-btn {
+    min-height: 54px;
+    margin-bottom: 10px;
+    border-radius: 18px;
+    font-size: 15px;
+  }
+
+  .nav-btn.ativo {
+    box-shadow: inset 0 0 0 1px rgba(95,212,124,.18), 0 12px 28px rgba(95,212,124,.10);
+  }
+}

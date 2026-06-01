@@ -138,7 +138,7 @@ function mostrarAba(aba) {
     if (secao) secao.classList.add("oculto");
   });
 
-  document.querySelectorAll(".nav-btn, .bottom-nav button").forEach(botao => {
+  document.querySelectorAll(".nav-btn").forEach(botao => {
     botao.classList.remove("ativo");
   });
 
