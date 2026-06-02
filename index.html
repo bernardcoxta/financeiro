@@ -6,6 +6,7 @@
   <title>Financeiro+</title>
   <meta name="theme-color" content="#07110c">
   <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -13,9 +14,9 @@
 <div class="app">
   <aside class="sidebar" id="sidebar">
     <div class="brand">
-      <div class="brand-logo">F+</div>
+      <div class="brand-logo"><img src="assets/logo-icon.svg" alt="Financeiro+"></div>
       <div>
-        <h2>Financeiro+</h2>
+        <h2><span class="app-word">Financeiro</span><span class="app-plus">+</span></h2>
         <p>Controle hoje. Construa amanhã.</p>
       </div>
     </div>
@@ -34,13 +35,13 @@
 
   <main class="conteudo">
     <header class="mobile-header">
-      <div class="mobile-brand"><span>F+</span> Financeiro+</div>
+      <div class="mobile-brand"><span><img src="assets/logo-icon.svg" alt="Financeiro+"></span> <strong class="app-word">Financeiro</strong><strong class="app-plus">+</strong></div>
       <button type="button" class="menu-toggle" onclick="alternarMenuMobile()" aria-label="Abrir menu">Abrir menu</button>
     </header>
 
     <header class="topo">
       <div>
-        <h1>Financeiro+</h1>
+        <h1><span class="app-word">Financeiro</span><span class="app-plus">+</span></h1>
         <p>Controle hoje. Construa amanhã.</p>
       </div>
 
@@ -59,7 +60,7 @@
           <div class="hero-topo">
             <div>
               <span class="eyebrow" id="saudacaoUsuario">Olá</span>
-              <h2>Patrimônio financeiro</h2>
+              <h2>Saldo disponível</h2>
               <strong id="patrimonioTotalHero">R$ 0,00</strong>
               <small id="patrimonioVariacaoHero">Seu resumo financeiro do mês</small>
             </div>
@@ -91,16 +92,16 @@
           </article>
         </div>
 
-        <div class="acao-card dashboard-acoes">
+        <div class="acao-card dashboard-acoes" id="checklistConfiguracao">
           <div>
             <span class="eyebrow">Próximos passos</span>
-            <h2>Configure o essencial</h2>
+            <h2>Próximos passos</h2>
             <p>Use os atalhos abaixo para deixar o Financeiro+ pronto para acompanhar sua vida financeira.</p>
           </div>
           <div class="atalhos-grid">
-            <button type="button" onclick="mostrarAba('caixa')" class="btn-secundario">Configurar caixa</button>
-            <button type="button" onclick="mostrarAba('objetivos')" class="btn-secundario">Criar objetivo</button>
-            <button type="button" onclick="mostrarAba('investimentos')" class="btn-secundario">Adicionar investimento</button>
+            <button type="button" onclick="mostrarAba('caixa')" class="btn-secundario" id="atalhoCaixa">Configurar caixa</button>
+            <button type="button" onclick="mostrarAba('objetivos')" class="btn-secundario" id="atalhoObjetivo">Criar objetivo</button>
+            <button type="button" onclick="mostrarAba('investimentos')" class="btn-secundario" id="atalhoInvestimento">Adicionar investimento</button>
           </div>
         </div>
 
@@ -379,7 +380,7 @@
 <div id="onboardingModal" class="onboarding-modal oculto" role="dialog" aria-modal="true" aria-labelledby="onboardingTitulo">
   <div class="onboarding-card">
     <span class="eyebrow">Primeiro acesso</span>
-    <h2 id="onboardingTitulo">Bem-vindo ao Financeiro+</h2>
+    <h2 id="onboardingTitulo">Bem-vindo ao <span class="app-word">Financeiro</span><span class="app-plus">+</span></h2>
     <p>Informe apenas o essencial. A renda mensal cadastrada aqui será adicionada automaticamente em Receitas Fixas.</p>
     <div class="formulario onboarding-form onboarding-form-simples">
       <input type="text" id="onboardingNome" placeholder="Seu nome">

@@ -150,7 +150,8 @@ function mostrarAba(aba) {
 
   abas.forEach(nome => {
     const secao = document.getElementById(nome);
-    if (secao) secao.classList.add("oculto");
+    if (secao) secao.classList.remove("show");
+secao.classList.add("oculto");
   });
 
   document.querySelectorAll(".nav-btn").forEach(botao => {
@@ -158,7 +159,19 @@ function mostrarAba(aba) {
   });
 
   const secaoAtiva = document.getElementById(aba);
-  if (secaoAtiva) secaoAtiva.classList.remove("oculto");
+
+if (secaoAtiva) {
+
+  secaoAtiva.classList.remove("oculto");
+
+  secaoAtiva.classList.remove("show");
+
+  requestAnimationFrame(() => {
+    secaoAtiva.classList.add("fade-panel");
+    secaoAtiva.classList.add("show");
+  });
+
+}
 
   const botaoLateral = document.getElementById(mapa[aba]);
   if (botaoLateral) botaoLateral.classList.add("ativo");
@@ -671,6 +684,25 @@ function atualizarDashboardInteligente() {
   setTexto("smartObjetivosDescricao", objetivosAtivos ? "Acompanhando metas cadastradas" : "Cadastre seu primeiro objetivo");
   setTexto("smartInvestimentos", formatarMoeda(totalInvestimentos));
   setTexto("smartInvestimentosDescricao", investimentos.length ? "Carteira manual estimada" : "Nenhum ativo cadastrado");
+  atualizarChecklistConfiguracao(reserva);
+}
+
+function atualizarChecklistConfiguracao(reserva = calcularCaixaEmergencial()) {
+  const bloco = document.getElementById("checklistConfiguracao");
+  const btnCaixa = document.getElementById("atalhoCaixa");
+  const btnObjetivo = document.getElementById("atalhoObjetivo");
+  const btnInvestimento = document.getElementById("atalhoInvestimento");
+  if (!bloco) return;
+
+  const caixaOk = reserva.meta > 0 || reserva.atual > 0;
+  const objetivoOk = objetivos.length > 0;
+  const investimentoOk = investimentos.length > 0;
+
+  if (btnCaixa) btnCaixa.classList.toggle("concluido", caixaOk);
+  if (btnObjetivo) btnObjetivo.classList.toggle("concluido", objetivoOk);
+  if (btnInvestimento) btnInvestimento.classList.toggle("concluido", investimentoOk);
+
+  bloco.classList.toggle("todos-concluidos", caixaOk && objetivoOk && investimentoOk);
 }
 
 function atualizarRelatorios() {

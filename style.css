@@ -46,7 +46,7 @@ button { -webkit-tap-highlight-color: transparent; }
 }
 .brand { display: flex; align-items: center; gap: 14px; margin-bottom: 30px; padding: 10px; }
 .brand-logo, .mobile-brand span {
-  width: 48px; height: 48px; border-radius: 16px;
+  width: 58px; height: 58px; border-radius: 16px;
   display: grid; place-items: center;
   font-weight: 800; letter-spacing: -1px;
   color: #0b0f14;
@@ -854,4 +854,423 @@ input, select, button { position: relative; z-index: 1; }
   .reserva-simples-card .reserva-topo > strong {
     font-size: 48px;
   }
+}
+
+
+/* ===== V15 ACABAMENTO PREMIUM ===== */
+.app-plus {
+  color: var(--gold);
+}
+.app-word {
+  color: var(--text);
+}
+.brand h2, .mobile-brand, .topo h1 {
+  display: flex;
+  align-items: baseline;
+  gap: 0;
+}
+.mobile-brand .app-plus,
+.brand .app-plus,
+.topo .app-plus,
+#onboardingTitulo .app-plus {
+  color: var(--gold);
+  text-shadow: 0 0 24px rgba(201, 163, 92, .28);
+}
+.brand-logo, .mobile-brand span {
+  background: linear-gradient(135deg, #f5d892 0%, #c9a35c 44%, #8f6a2f 100%);
+  color: #09100b;
+}
+.sidebar {
+  box-shadow: 18px 0 70px rgba(0,0,0,.22);
+}
+.hero-clean {
+  min-height: 245px;
+  background:
+    radial-gradient(circle at 78% 12%, rgba(201, 163, 92, .15), transparent 34%),
+    linear-gradient(180deg, rgba(18, 27, 37, .94), rgba(7, 12, 18, .96));
+}
+.hero-clean .hero-topo h2 {
+  color: var(--muted);
+  font-size: clamp(18px, 2vw, 24px);
+  font-weight: 650;
+  margin: 4px 0 10px;
+}
+.hero-clean .hero-topo strong {
+  color: var(--text);
+  text-shadow: 0 18px 50px rgba(95,212,124,.08);
+}
+.hero-clean .hero-periodo {
+  border-color: rgba(201,163,92,.24);
+}
+.smart-dashboard article {
+  position: relative;
+  overflow: hidden;
+}
+.smart-dashboard article::before {
+  content: '';
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  bottom: 12px;
+  height: 3px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--green), rgba(201,163,92,.72));
+  opacity: .72;
+}
+.dashboard-acoes {
+  align-items: center;
+  border-color: rgba(201,163,92,.18);
+}
+.dashboard-acoes.todos-concluidos {
+  display: none !important;
+}
+.btn-secundario.concluido {
+  color: rgba(248,250,252,.76);
+  border-color: rgba(95,212,124,.22);
+  background: rgba(95,212,124,.08);
+}
+.btn-secundario.concluido::before {
+  content: '✓ ';
+  color: var(--green);
+}
+.resumo-clean {
+  background: linear-gradient(180deg, rgba(12, 18, 26, .84), rgba(8, 13, 19, .90));
+  box-shadow: 0 18px 60px rgba(0,0,0,.30);
+}
+.resumo-clean h2 {
+  font-size: 20px;
+  color: #e5e7eb;
+}
+.nav-btn {
+  letter-spacing: -.2px;
+}
+.nav-btn.ativo {
+  border-color: rgba(201,163,92,.32);
+  background: linear-gradient(135deg, rgba(95,212,124,.16), rgba(201,163,92,.15));
+}
+button {
+  box-shadow: 0 10px 24px rgba(95,212,124,.12);
+}
+.btn-secundario,
+.btn-pdf,
+.menu-toggle {
+  box-shadow: none;
+}
+input, select {
+  transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
+}
+.painel h2,
+.reserva-card h2,
+.grafico-card h2,
+.objetivos-card h2,
+.patrimonio-card h2 {
+  font-size: clamp(21px, 2vw, 26px);
+}
+.toast-aviso {
+  border: 1px solid rgba(95,212,124,.25);
+}
+.onboarding-modal:not(.oculto) {
+  backdrop-filter: blur(18px);
+}
+.onboarding-card {
+  border: 1px solid rgba(201,163,92,.20);
+}
+.onboarding-card h2 {
+  display: block;
+}
+@media (max-width: 960px) {
+  .mobile-header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    padding: 10px 2px 12px;
+    background: linear-gradient(180deg, rgba(7,11,16,.96), rgba(7,11,16,.76));
+    backdrop-filter: blur(16px);
+  }
+  .hero-clean {
+    padding: 20px;
+    min-height: 215px;
+  }
+  .smart-dashboard article {
+    min-height: 120px;
+  }
+  .dashboard-acoes p {
+    font-size: 14px;
+  }
+  .menu-toggle {
+    font-size: 0;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border-radius: 15px;
+    position: relative;
+  }
+  .menu-toggle::before {
+    content: '☰';
+    font-size: 22px;
+    color: var(--text);
+  }
+}
+@media (max-width: 520px) {
+  .conteudo {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+  .hero-clean .hero-topo strong {
+    font-size: 38px;
+  }
+  .smart-dashboard article strong {
+    font-size: 25px;
+  }
+}
+
+
+/* ===== V16 LOGO PREMIUM ===== */
+.brand-logo,
+.mobile-brand span {
+  padding: 0;
+  overflow: hidden;
+  background: transparent !important;
+  border: 1px solid rgba(201, 163, 92, .42);
+  box-shadow: 0 14px 38px rgba(0,0,0,.32), 0 0 28px rgba(201,163,92,.12);
+}
+.brand-logo img,
+.mobile-brand span img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+.brand h2 .app-plus,
+.mobile-brand .app-plus,
+.topo h1 .app-plus,
+#onboardingTitulo .app-plus {
+  color: #c9a35c;
+  text-shadow: 0 0 22px rgba(201, 163, 92, .32);
+}
+.brand-logo:hover {
+  transform: translateY(-1px);
+  transition: .2s ease;
+}
+.logo-preview-card {
+  display: none;
+}
+
+/* ===== V17 POLIMENTO VISÃO GERAL - SVG + CHECKLIST PREMIUM ===== */
+/* Ícones SVG profissionais nos cards da Visão Geral, sem emoji e sem biblioteca externa */
+.smart-dashboard article {
+  position: relative;
+  padding: 20px 20px 22px 72px;
+  min-height: 118px;
+}
+
+.smart-dashboard article::after {
+  content: "";
+  position: absolute;
+  left: 20px;
+  top: 20px;
+  width: 36px;
+  height: 36px;
+  border-radius: 14px;
+  background-color: #c9a35c;
+  box-shadow:
+    0 14px 30px rgba(0,0,0,.24),
+    0 0 22px rgba(201,163,92,.12);
+  opacity: .96;
+
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: 22px 22px;
+  mask-size: 22px 22px;
+}
+
+/* Carteira / saldo */
+.smart-dashboard article:nth-child(1)::after {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 7.5V18a2 2 0 0 0 2 2h14V8H6a2 2 0 0 1 0-4h12v4'/%3E%3Cpath d='M16 13h.01'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 7.5V18a2 2 0 0 0 2 2h14V8H6a2 2 0 0 1 0-4h12v4'/%3E%3Cpath d='M16 13h.01'/%3E%3C/svg%3E");
+}
+
+/* Escudo / caixa emergencial */
+.smart-dashboard article:nth-child(2)::after {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z'/%3E%3Cpath d='M9 12l2 2 4-5'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z'/%3E%3Cpath d='M9 12l2 2 4-5'/%3E%3C/svg%3E");
+}
+
+/* Alvo / objetivos */
+.smart-dashboard article:nth-child(3)::after {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='8'/%3E%3Ccircle cx='12' cy='12' r='3'/%3E%3Cpath d='M12 2v3M12 19v3M2 12h3M19 12h3'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='8'/%3E%3Ccircle cx='12' cy='12' r='3'/%3E%3Cpath d='M12 2v3M12 19v3M2 12h3M19 12h3'/%3E%3C/svg%3E");
+}
+
+/* Gráfico / investimentos */
+.smart-dashboard article:nth-child(4)::after {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 19V5'/%3E%3Cpath d='M4 19h16'/%3E%3Cpath d='M8 16l3-4 3 2 4-7'/%3E%3Cpath d='M17 7h1v1'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 19V5'/%3E%3Cpath d='M4 19h16'/%3E%3Cpath d='M8 16l3-4 3 2 4-7'/%3E%3Cpath d='M17 7h1v1'/%3E%3C/svg%3E");
+}
+
+.smart-dashboard article span,
+.smart-dashboard article small {
+  position: relative;
+  z-index: 1;
+}
+
+/* Hero mais próximo do topo e com leitura mais premium */
+.hero-clean {
+  margin-top: -8px;
+}
+
+.hero-clean .hero-topo small {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: #5fd47c;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.hero-clean .hero-topo small::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: #5fd47c;
+  box-shadow: 0 0 14px rgba(95,212,124,.55);
+}
+
+/* Próximos passos com cara de checklist premium, sem emojis */
+.dashboard-acoes {
+  background:
+    radial-gradient(circle at 92% 20%, rgba(201,163,92,.08), transparent 34%),
+    linear-gradient(180deg, rgba(18,26,36,.88), rgba(8,13,19,.92));
+}
+
+.atalhos-grid button {
+  position: relative;
+  justify-content: center;
+  padding-left: 46px;
+  overflow: hidden;
+}
+
+.atalhos-grid button::before {
+  content: "";
+  position: absolute;
+  left: 18px;
+  top: 50%;
+  width: 15px;
+  height: 15px;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  border: 1px solid rgba(201,163,92,.55);
+  background: rgba(201,163,92,.08);
+  box-shadow: 0 0 16px rgba(201,163,92,.10);
+}
+
+.atalhos-grid button:hover::before {
+  background: rgba(95,212,124,.20);
+  border-color: rgba(95,212,124,.65);
+}
+
+/* Menu hambúrguer premium menor */
+.menu-toggle {
+  width: 62px;
+  height: 62px;
+  min-height: 62px;
+  padding: 0;
+  border-radius: 22px;
+  background: rgba(255,255,255,.055);
+  border: 1px solid rgba(255,255,255,.09);
+  color: var(--text);
+  box-shadow:
+    0 18px 42px rgba(0,0,0,.28),
+    inset 0 1px 0 rgba(255,255,255,.05);
+  backdrop-filter: blur(18px);
+}
+
+.menu-toggle::before {
+  font-size: 30px;
+}
+
+.menu-toggle:hover {
+  transform: translateY(-1px);
+  background: rgba(255,255,255,.075);
+}
+
+@media (max-width: 960px) {
+  .smart-dashboard article {
+    padding: 16px 16px 18px 62px;
+    min-height: 112px;
+  }
+
+  .smart-dashboard article::after {
+    left: 16px;
+    top: 17px;
+    width: 32px;
+    height: 32px;
+    border-radius: 12px;
+    -webkit-mask-size: 20px 20px;
+    mask-size: 20px 20px;
+  }
+
+  .hero-clean {
+    margin-top: 0;
+  }
+
+  .menu-toggle {
+    width: 54px;
+    height: 54px;
+    min-height: 54px;
+    border-radius: 18px;
+  }
+
+  .menu-toggle::before {
+    font-size: 26px;
+  }
+}
+
+@media (max-width: 430px) {
+  .smart-dashboard article {
+    padding-left: 64px;
+  }
+}
+
+/* ===== V16 LOGO PREMIUM - FLUTUANTE ===== */
+.brand-logo,
+.mobile-brand span {
+  padding: 0;
+  overflow: visible;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.brand-logo img,
+.mobile-brand span img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+  filter: drop-shadow(0 12px 22px rgba(0,0,0,.35))
+          drop-shadow(0 0 18px rgba(201,163,92,.18));
+}
+
+.brand-logo:hover {
+  transform: translateY(-1px);
+  transition: .2s ease;
+}
+
+/* ===== ANIMAÇÃO DE ABAS ===== */
+
+.fade-panel {
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity .18s ease,
+    transform .18s ease;
+}
+
+.fade-panel.show {
+  opacity: 1;
+  transform: translateY(0);
 }

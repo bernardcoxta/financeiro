@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 730 160" role="img" aria-label="Financeiro+">
+  <defs>
+    <linearGradient id="gold" x1="52" y1="34" x2="140" y2="128" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f8d986"/><stop offset="0.5" stop-color="#d2a64e"/><stop offset="1" stop-color="#8f6525"/>
+    </linearGradient>
+    <linearGradient id="white" x1="25" y1="20" x2="105" y2="130" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#d7dde4"/>
+    </linearGradient>
+  </defs>
+  <g>
+    <path d="M24 124V45c0-20 14-34 35-34h64c5 0 7 6 4 9l-21 20c-3 4-8 5-13 5H62c-9 0-15 6-15 15v16h45c4 0 6 5 3 8l-18 18c-3 3-7 5-11 5H47v17c0 6-5 11-11 11H24z" fill="url(#white)"/>
+    <path d="M103 74c6 0 11 5 11 11v17h17c6 0 11 5 11 11v10c0 6-5 11-11 11h-17v17c0 6-5 11-11 11H93c-6 0-11-5-11-11v-17H65c-6 0-11-5-11-11v-10c0-6 5-11 11-11h17V85c0-6 5-11 11-11h10z" fill="url(#gold)"/>
+  </g>
+  <text x="165" y="101" font-family="Inter, Arial, sans-serif" font-size="62" font-weight="800" fill="#f8fafc" letter-spacing="-2.2">Financeiro</text>
+  <text x="478" y="101" font-family="Inter, Arial, sans-serif" font-size="66" font-weight="900" fill="#c9a35c" letter-spacing="-2.2">+</text>
+</svg>

@@ -1,12 +1,10 @@
-# Financeiro+ v14 - Home Clean
+# Financeiro+ v15 - Acabamento Premium
 
-Atualização focada em usabilidade mobile:
+Versão com visual mais refinado, paleta preservada, símbolo + em dourado, home clean, checklist inteligente e melhorias de experiência mobile.
 
-- Home mais limpa e objetiva
-- Remoção dos blocos técnicos da Visão Geral
-- Caixa Emergencial simplificado
-- Botão de aporte rápido para reserva
-- Menu único mantido
-- Onboarding simples mantido
-
-Substitua os arquivos do repositório pelos arquivos deste pacote.
+## Arquivos principais
+- index.html
+- style.css
+- script.js
+- manifest.json
+- capacitor.config.json
