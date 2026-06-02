@@ -121,10 +121,9 @@ function obterTotalReceitasFixas() {
 }
 
 function mostrarAba(aba) {
-  const abas = ["dashboard", "relatorios", "receitas", "comissoes", "despesas", "parcelas", "caixa", "investimentos", "objetivos", "configuracoes"];
+  const abas = ["dashboard", "receitas", "comissoes", "despesas", "parcelas", "caixa", "investimentos", "objetivos", "configuracoes"];
   const mapa = {
     dashboard: "btnDashboard",
-    relatorios: "btnRelatorios",
     receitas: "btnReceitas",
     comissoes: "btnComissoes",
     despesas: "btnDespesas",
@@ -405,7 +404,6 @@ function salvarCaixaEmergencial() {
   salvarLocal();
   notificarSalvo();
   atualizarTela();
-  alert("Caixa emergencial salvo.");
 }
 
 function calcularCaixaEmergencial() {
@@ -781,7 +779,6 @@ function atualizarTela() {
   atualizarSelectRendasExtras();
   atualizarDashboard(receitas, comissoesMes, despesas, parcelasMes);
   atualizarDashboardInteligente();
-  atualizarRelatorios();
   atualizarTabelaReceitas(receitas);
   atualizarTabelaComissoes(comissoesMes);
   atualizarTabelaDespesas(despesas);
@@ -926,6 +923,7 @@ function obterUltimosMeses(qtd = 6) {
 
 function atualizarHistorico() {
   const tbody = document.getElementById("listaHistorico");
+  if (!tbody) return;
   tbody.innerHTML = "";
   obterUltimosMeses().forEach(mes => {
     const r = calcularResumoMes(mes);

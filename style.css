@@ -643,3 +643,89 @@ input, select, button { position: relative; z-index: 1; }
     grid-template-columns: 1fr;
   }
 }
+
+/* ===== v12 UX ajustes ===== */
+.bottom-nav {
+  display: none !important;
+}
+
+.caixa-painel {
+  display: grid;
+  gap: 18px;
+}
+
+.reserva-destaque {
+  margin-bottom: 0;
+  border-color: rgba(95, 212, 124, 0.22);
+}
+
+.reserva-destaque .meta-barra {
+  margin-bottom: 18px;
+  height: 16px;
+}
+
+.reserva-grid-principal {
+  grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
+}
+
+.caixa-guia {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.caixa-guia div {
+  background: rgba(255,255,255,.035);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 16px;
+}
+
+.caixa-guia strong {
+  display: block;
+  margin-bottom: 7px;
+  color: var(--text);
+}
+
+.caixa-guia span {
+  display: block;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.formulario-com-label label {
+  display: grid;
+  gap: 7px;
+}
+
+.formulario-com-label label > span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+  padding-left: 4px;
+}
+
+.reserva-detalhes {
+  margin-bottom: 0;
+}
+
+@media (max-width: 960px) {
+  .conteudo {
+    padding-bottom: 28px;
+  }
+
+  .caixa-guia {
+    grid-template-columns: 1fr;
+  }
+
+  .reserva-grid-principal {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 520px) {
+  .reserva-grid-principal {
+    grid-template-columns: 1fr;
+  }
+}
