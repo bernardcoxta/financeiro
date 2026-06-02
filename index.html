@@ -21,6 +21,7 @@
     </div>
 
     <button type="button" data-aba="dashboard" onclick="mostrarAba('dashboard')" class="nav-btn ativo" id="btnDashboard">Visão Geral</button>
+    <button type="button" data-aba="relatorios" onclick="mostrarAba('relatorios')" class="nav-btn" id="btnRelatorios">Relatórios</button>
     <button type="button" data-aba="receitas" onclick="mostrarAba('receitas')" class="nav-btn" id="btnReceitas">Receitas</button>
     <button type="button" data-aba="comissoes" onclick="mostrarAba('comissoes')" class="nav-btn" id="btnComissoes">Rendas Extras</button>
     <button type="button" data-aba="despesas" onclick="mostrarAba('despesas')" class="nav-btn" id="btnDespesas">Despesas</button>
@@ -65,6 +66,29 @@
             <div class="hero-periodo">Este mês</div>
           </div>
           <div class="hero-chart" id="heroChart"></div>
+        </div>
+
+        <div class="smart-dashboard">
+          <article>
+            <span>Saldo do mês</span>
+            <strong id="smartSaldoMes">R$ 0,00</strong>
+            <small id="smartSaldoDescricao">Resultado do período selecionado</small>
+          </article>
+          <article>
+            <span>Caixa Emergencial</span>
+            <strong id="smartCaixa">0%</strong>
+            <small id="smartCaixaDescricao">Progresso da sua reserva</small>
+          </article>
+          <article>
+            <span>Objetivos</span>
+            <strong id="smartObjetivos">0 ativos</strong>
+            <small id="smartObjetivosDescricao">Metas financeiras cadastradas</small>
+          </article>
+          <article>
+            <span>Investimentos</span>
+            <strong id="smartInvestimentos">R$ 0,00</strong>
+            <small id="smartInvestimentosDescricao">Carteira manual estimada</small>
+          </article>
         </div>
 
         <div class="cards">
@@ -140,6 +164,45 @@
               <thead><tr><th>Mês</th><th>Receitas</th><th>Rendas extras</th><th>Saídas</th><th>Saldo</th><th>Lançamentos extras</th></tr></thead>
               <tbody id="listaHistorico"></tbody>
             </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <section id="relatorios" class="aba oculto">
+      <div class="painel">
+        <h2>Relatórios</h2>
+        <p class="aviso painel-descricao">Análise rápida do mês selecionado para entender entradas, saídas, categorias de despesas e evolução financeira.</p>
+
+        <div class="relatorio-grid">
+          <div class="relatorio-card">
+            <span>Entradas</span>
+            <strong id="relatorioEntradas">R$ 0,00</strong>
+            <small>Receitas fixas + rendas extras</small>
+          </div>
+          <div class="relatorio-card">
+            <span>Saídas</span>
+            <strong id="relatorioSaidas">R$ 0,00</strong>
+            <small>Despesas fixas + parcelas</small>
+          </div>
+          <div class="relatorio-card">
+            <span>Resultado</span>
+            <strong id="relatorioResultado">R$ 0,00</strong>
+            <small>Saldo final do mês</small>
+          </div>
+        </div>
+
+        <div class="relatorio-duplo">
+          <div class="relatorio-bloco">
+            <h3>Distribuição das despesas</h3>
+            <div id="relatorioDespesasDonut" class="donut-chart relatorio-donut"><span>0%</span></div>
+            <div id="relatorioDespesasLegenda" class="investimentos-legenda"></div>
+          </div>
+
+          <div class="relatorio-bloco">
+            <h3>Evolução dos próximos meses</h3>
+            <div id="relatorioEvolucao" class="patrimonio-grafico"></div>
           </div>
         </div>
       </div>
@@ -331,6 +394,15 @@
             <button type="button" onclick="salvarTokenCotacao()">Salvar token</button>
           </div>
         </div>
+        <div class="config-bloco">
+          <h3>Experiência inicial</h3>
+          <p class="aviso">Reabra a tela de boas-vindas para configurar novamente os dados iniciais do aplicativo.</p>
+          <div class="backup-actions">
+            <button type="button" onclick="abrirOnboarding()" class="btn-secundario">Abrir onboarding</button>
+            <button type="button" onclick="limparDadosFinanceiro()" class="botao-remover">Limpar todos os dados</button>
+          </div>
+        </div>
+
         <div class="config-bloco backup-bloco">
           <h3>Backup dos dados</h3>
           <p class="aviso">Exporte um arquivo de segurança antes de grandes alterações ou antes de testar em outro celular. Para restaurar, importe o arquivo gerado pelo Financeiro+.</p>
@@ -346,6 +418,25 @@
     </section>
   </main>
 
+</div>
+
+<div id="onboardingModal" class="onboarding-modal oculto" role="dialog" aria-modal="true" aria-labelledby="onboardingTitulo">
+  <div class="onboarding-card">
+    <span class="eyebrow">Primeiro acesso</span>
+    <h2 id="onboardingTitulo">Bem-vindo ao Financeiro+</h2>
+    <p>Configure o básico para o aplicativo começar com uma visão mais útil da sua vida financeira.</p>
+    <div class="formulario onboarding-form">
+      <input type="text" id="onboardingNome" placeholder="Seu nome">
+      <input type="text" inputmode="decimal" id="onboardingRenda" placeholder="Renda mensal inicial">
+      <input type="text" inputmode="decimal" id="onboardingReserva" placeholder="Meta de reserva emergencial">
+      <input type="text" id="onboardingObjetivo" placeholder="Primeiro objetivo, ex: Apartamento">
+      <input type="text" inputmode="decimal" id="onboardingObjetivoValor" placeholder="Valor alvo do objetivo">
+    </div>
+    <div class="onboarding-actions">
+      <button type="button" onclick="salvarOnboarding()">Começar agora</button>
+      <button type="button" onclick="pularOnboarding()" class="btn-secundario">Pular por enquanto</button>
+    </div>
+  </div>
 </div>
 
 <script src="script.js"></script>

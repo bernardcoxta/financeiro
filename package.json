@@ -1,8 +1,8 @@
 {
   "name": "financeiro-plus",
-  "version": "0.9.0",
+  "version": "1.1.0",
   "private": true,
-  "description": "Financeiro+ mobile web app",
+  "description": "Financeiro+ mobile web app com onboarding, relatórios, backup e estrutura Android/iOS",
   "scripts": {
     "android:init": "npx cap add android",
     "ios:init": "npx cap add ios",

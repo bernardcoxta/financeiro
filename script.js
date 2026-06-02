@@ -5,6 +5,9 @@ if (!Array.isArray(configuracoes.tiposRendaExtra)) {
 if (!configuracoes.caixaEmergencial) {
   configuracoes.caixaEmergencial = { tipoMeta: "fixo", valorMeta: 0, saldoAtual: 0, aportePercentual: 10 };
 }
+if (!configuracoes.perfil) {
+  configuracoes.perfil = { nome: "", onboardingConcluido: false };
+}
 
 let receitas = JSON.parse(localStorage.getItem("financeiroReceitasFixas")) || [];
 let comissoes = JSON.parse(localStorage.getItem("financeiroComissoesDiarias")) || [];
@@ -118,9 +121,10 @@ function obterTotalReceitasFixas() {
 }
 
 function mostrarAba(aba) {
-  const abas = ["dashboard", "receitas", "comissoes", "despesas", "parcelas", "caixa", "investimentos", "objetivos", "configuracoes"];
+  const abas = ["dashboard", "relatorios", "receitas", "comissoes", "despesas", "parcelas", "caixa", "investimentos", "objetivos", "configuracoes"];
   const mapa = {
     dashboard: "btnDashboard",
+    relatorios: "btnRelatorios",
     receitas: "btnReceitas",
     comissoes: "btnComissoes",
     despesas: "btnDespesas",
@@ -616,11 +620,168 @@ function aplicarLabelsMobile() {
   });
 }
 
+
+function calcularResumoAtual() {
+  const comissoesMes = filtrarPorMes(comissoes);
+  const parcelasMes = obterParcelasDoMes();
+  const totalReceitasFixas = receitas.reduce((s, item) => s + (Number(item.valor) || 0), 0);
+  const totalExtras = comissoesMes.reduce((s, item) => s + (Number(item.valor) || 0), 0);
+  const totalDespesas = despesas.reduce((s, item) => s + (Number(item.valor) || 0), 0);
+  const totalParcelas = parcelasMes.reduce((s, item) => s + (Number(item.valor) || 0), 0);
+  const entradas = totalReceitasFixas + totalExtras;
+  const saidas = totalDespesas + totalParcelas;
+  const saldo = entradas - saidas;
+  return { entradas, saidas, saldo, totalReceitasFixas, totalExtras, totalDespesas, totalParcelas };
+}
+
+function atualizarDashboardInteligente() {
+  const resumo = calcularResumoAtual();
+  const reserva = calcularCaixaEmergencial();
+  const totalInvestimentos = calcularTotalInvestimentos();
+  const objetivosAtivos = objetivos.length;
+
+  setTexto("smartSaldoMes", formatarMoeda(resumo.saldo));
+  setTexto("smartSaldoDescricao", resumo.saldo >= 0 ? "Resultado positivo no mês" : "Atenção: saídas acima das entradas");
+  setTexto("smartCaixa", `${Math.round(reserva.percentual)}%`);
+  setTexto("smartCaixaDescricao", reserva.faltam > 0 ? `Faltam ${formatarMoeda(reserva.faltam)}` : "Reserva concluída");
+  setTexto("smartObjetivos", `${objetivosAtivos} ativo${objetivosAtivos === 1 ? "" : "s"}`);
+  setTexto("smartObjetivosDescricao", objetivosAtivos ? "Acompanhando metas cadastradas" : "Cadastre seu primeiro objetivo");
+  setTexto("smartInvestimentos", formatarMoeda(totalInvestimentos));
+  setTexto("smartInvestimentosDescricao", investimentos.length ? "Carteira manual estimada" : "Nenhum ativo cadastrado");
+}
+
+function atualizarRelatorios() {
+  const resumo = calcularResumoAtual();
+  setTexto("relatorioEntradas", formatarMoeda(resumo.entradas));
+  setTexto("relatorioSaidas", formatarMoeda(resumo.saidas));
+  setTexto("relatorioResultado", formatarMoeda(resumo.saldo));
+
+  const porCategoria = {};
+  despesas.forEach(item => {
+    const categoria = item.categoria || "Outros";
+    porCategoria[categoria] = (porCategoria[categoria] || 0) + (Number(item.valor) || 0);
+  });
+  const categorias = Object.entries(porCategoria).sort((a, b) => b[1] - a[1]);
+  const total = categorias.reduce((s, [, valor]) => s + valor, 0);
+  const donut = document.getElementById("relatorioDespesasDonut");
+  const legenda = document.getElementById("relatorioDespesasLegenda");
+
+  if (donut) {
+    if (!total) {
+      donut.style.background = "conic-gradient(rgba(255,255,255,.08) 0 100%)";
+      donut.innerHTML = "<span>0%</span>";
+    } else {
+      let acumulado = 0;
+      const cores = ["#5fd47c", "#c9a35c", "#ef4444", "#38bdf8", "#a78bfa", "#f97316", "#94a3b8"];
+      const partes = categorias.map(([nome, valor], index) => {
+        const inicio = acumulado;
+        const fatia = (valor / total) * 100;
+        acumulado += fatia;
+        return `${cores[index % cores.length]} ${inicio}% ${acumulado}%`;
+      });
+      donut.style.background = `conic-gradient(${partes.join(", ")})`;
+      donut.innerHTML = `<span>${categorias.length}</span>`;
+    }
+  }
+
+  if (legenda) {
+    legenda.innerHTML = categorias.length ? "" : `<p class="aviso">Nenhuma despesa cadastrada.</p>`;
+    categorias.forEach(([nome, valor]) => {
+      const pct = total > 0 ? Math.round((valor / total) * 100) : 0;
+      legenda.innerHTML += `<div><span>${nome}</span><strong>${formatarMoeda(valor)} · ${pct}%</strong></div>`;
+    });
+  }
+
+  const evolucao = document.getElementById("relatorioEvolucao");
+  if (evolucao) {
+    const meses = obterUltimosMeses(6);
+    const dados = meses.map(mes => ({ mes, ...calcularResumoMes(mes) }));
+    const maior = Math.max(...dados.map(d => Math.abs(d.saldo)), 1);
+    evolucao.innerHTML = `<div class="patrimonio-barras">${dados.map(d => {
+      const h = Math.max(8, (Math.abs(d.saldo) / maior) * 90);
+      return `<div class="patrimonio-coluna"><div class="patrimonio-barra-wrap"><div class="patrimonio-barra ${d.saldo < 0 ? "negativa-barra" : ""}" style="height:${h}%"></div></div><strong>${formatarMoeda(d.saldo)}</strong><span>${formatarMes(d.mes)}</span></div>`;
+    }).join("")}</div>`;
+  }
+}
+
+function abrirOnboarding() {
+  const modal = document.getElementById("onboardingModal");
+  if (!modal) return;
+  const nome = document.getElementById("onboardingNome");
+  if (nome) nome.value = configuracoes.perfil?.nome || "";
+  modal.classList.remove("oculto");
+}
+
+function fecharOnboarding() {
+  const modal = document.getElementById("onboardingModal");
+  if (modal) modal.classList.add("oculto");
+}
+
+function salvarOnboarding() {
+  const nome = document.getElementById("onboardingNome").value.trim();
+  const renda = parseValor(document.getElementById("onboardingRenda"));
+  const reserva = parseValor(document.getElementById("onboardingReserva"));
+  const objetivoNome = document.getElementById("onboardingObjetivo").value.trim();
+  const objetivoValor = parseValor(document.getElementById("onboardingObjetivoValor"));
+
+  configuracoes.perfil = { nome, onboardingConcluido: true };
+
+  if (renda > 0 && receitas.length === 0) {
+    receitas.push({ id: Date.now(), descricao: "Renda principal", valor: renda });
+  }
+
+  if (reserva > 0) {
+    configuracoes.caixaEmergencial = {
+      ...(configuracoes.caixaEmergencial || {}),
+      tipoMeta: "fixo",
+      valorMeta: reserva,
+      saldoAtual: configuracoes.caixaEmergencial?.saldoAtual || 0,
+      aportePercentual: configuracoes.caixaEmergencial?.aportePercentual || 10
+    };
+  }
+
+  if (objetivoNome && objetivoValor > 0 && objetivos.length === 0) {
+    objetivos.push({ id: Date.now() + 1, nome: objetivoNome, valorAlvo: objetivoValor, valorAtual: 0, aporteMensal: 0 });
+  }
+
+  salvarLocal();
+  fecharOnboarding();
+  carregarCaixaEmergencialNaTela();
+  atualizarTela();
+  notificarSalvo("Configuração inicial concluída.");
+}
+
+function pularOnboarding() {
+  configuracoes.perfil = { ...(configuracoes.perfil || {}), onboardingConcluido: true };
+  salvarLocal();
+  fecharOnboarding();
+}
+
+function exibirOnboardingSeNecessario() {
+  if (!configuracoes.perfil?.onboardingConcluido && receitas.length === 0 && despesas.length === 0 && objetivos.length === 0) {
+    setTimeout(abrirOnboarding, 350);
+  }
+}
+
+function limparDadosFinanceiro() {
+  if (!confirm("Tem certeza que deseja apagar todos os dados deste aparelho? Faça um backup antes de continuar.")) return;
+  localStorage.removeItem("financeiroConfiguracoes");
+  localStorage.removeItem("financeiroReceitasFixas");
+  localStorage.removeItem("financeiroComissoesDiarias");
+  localStorage.removeItem("financeiroDespesasFixas");
+  localStorage.removeItem("financeiroParcelas");
+  localStorage.removeItem("financeiroObjetivos");
+  localStorage.removeItem("financeiroInvestimentos");
+  location.reload();
+}
+
 function atualizarTela() {
   const comissoesMes = filtrarPorMes(comissoes);
   const parcelasMes = obterParcelasDoMes();
   atualizarSelectRendasExtras();
   atualizarDashboard(receitas, comissoesMes, despesas, parcelasMes);
+  atualizarDashboardInteligente();
+  atualizarRelatorios();
   atualizarTabelaReceitas(receitas);
   atualizarTabelaComissoes(comissoesMes);
   atualizarTabelaDespesas(despesas);
@@ -1029,7 +1190,7 @@ function fecharMenuMobile() {
 function obterPacoteDadosFinanceiro() {
   return {
     app: "Financeiro+",
-    versao: "v9-comercial",
+    versao: "v11-produto",
     exportadoEm: new Date().toISOString(),
     dados: { configuracoes, receitas, comissoes, despesas, parcelas, objetivos, investimentos }
   };
@@ -1073,6 +1234,9 @@ function importarDadosArquivo(event) {
       }
       if (!configuracoes.caixaEmergencial) {
         configuracoes.caixaEmergencial = { tipoMeta: "fixo", valorMeta: 0, saldoAtual: 0, aportePercentual: 10 };
+      }
+      if (!configuracoes.perfil) {
+        configuracoes.perfil = { nome: "", onboardingConcluido: true };
       }
       receitas = Array.isArray(dados.receitas) ? dados.receitas : [];
       comissoes = Array.isArray(dados.comissoes) ? dados.comissoes : [];
@@ -1123,7 +1287,8 @@ Object.assign(window, {
   salvarCaixaEmergencial,
   salvarInvestimento, editarInvestimento, cancelarEdicaoInvestimento, removerInvestimento, atualizarCotacaoInvestimento, atualizarCotacoesInvestimentos, salvarTokenCotacao,
   salvarObjetivo, editarObjetivo, cancelarEdicaoObjetivo, removerObjetivo, aportarObjetivo,
-  salvarTipoRendaExtra, editarTipoRendaExtra, cancelarEdicaoTipoRendaExtra, removerTipoRendaExtra
+  salvarTipoRendaExtra, editarTipoRendaExtra, cancelarEdicaoTipoRendaExtra, removerTipoRendaExtra,
+  abrirOnboarding, salvarOnboarding, pularOnboarding, limparDadosFinanceiro
 });
 
 iniciarMesAtual();
@@ -1131,3 +1296,4 @@ carregarCaixaEmergencialNaTela();
 carregarTokenCotacaoNaTela();
 atualizarTela();
 mostrarAba("dashboard");
+exibirOnboardingSeNecessario();
