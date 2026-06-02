@@ -729,3 +729,129 @@ input, select, button { position: relative; z-index: 1; }
     grid-template-columns: 1fr;
   }
 }
+
+
+/* ===== v14 Home Clean e Caixa Emergencial simples ===== */
+.hero-clean {
+  min-height: 210px;
+  padding: 28px;
+  margin-bottom: 18px;
+}
+.hero-clean .hero-topo {
+  align-items: flex-start;
+}
+.hero-clean h2 {
+  margin: 0 0 12px;
+  font-size: clamp(22px, 3vw, 32px);
+  color: var(--text);
+}
+.hero-clean .hero-topo strong {
+  font-size: clamp(44px, 7vw, 76px);
+}
+.hero-chart-oculto {
+  display: none !important;
+}
+.dashboard-principal {
+  margin-bottom: 18px;
+}
+.acao-card {
+  background: linear-gradient(180deg, rgba(18, 26, 36, .92), rgba(8, 13, 19, .92));
+  border: 1px solid var(--line);
+  border-radius: var(--card-radius);
+  box-shadow: var(--shadow);
+  padding: 22px;
+  margin-bottom: 18px;
+  display: grid;
+  grid-template-columns: 1.2fr .8fr;
+  gap: 18px;
+  align-items: center;
+}
+.acao-card p {
+  color: var(--muted);
+  line-height: 1.55;
+  margin-top: 6px;
+}
+.atalhos-grid {
+  display: grid;
+  gap: 10px;
+}
+.resumo-clean {
+  margin-bottom: 20px;
+}
+.dashboard-tecnico {
+  display: none !important;
+}
+.caixa-simples .reserva-destaque {
+  margin-top: 16px;
+}
+.reserva-simples-card .reserva-topo > div > strong {
+  display: block;
+  font-size: clamp(34px, 6vw, 58px);
+  letter-spacing: -1.6px;
+  margin: 6px 0;
+  color: var(--text);
+}
+.reserva-simples-card .reserva-topo > strong {
+  font-size: clamp(42px, 6vw, 70px);
+}
+.btn-aporte-reserva {
+  width: 100%;
+  margin-top: 16px;
+}
+.caixa-form-simples {
+  margin-top: 18px;
+}
+.campo-oculto-tecnico {
+  display: none !important;
+}
+.detalhes-discretos {
+  background: rgba(255,255,255,.035);
+  box-shadow: none;
+}
+.detalhes-discretos h2 {
+  font-size: 18px;
+}
+.bottom-nav {
+  display: none !important;
+}
+
+@media (max-width: 960px) {
+  .conteudo { padding-bottom: 36px; }
+  .hero-clean {
+    min-height: auto;
+    padding: 22px;
+  }
+  .hero-clean .hero-topo strong {
+    font-size: 46px;
+    letter-spacing: -2px;
+  }
+  .dashboard-principal {
+    grid-template-columns: 1fr 1fr;
+  }
+  .acao-card {
+    grid-template-columns: 1fr;
+    padding: 18px;
+    border-radius: 24px;
+  }
+  .atalhos-grid {
+    grid-template-columns: 1fr;
+  }
+  .resumo-clean .linha-grafico {
+    grid-template-columns: 1fr;
+  }
+  .reserva-simples-card .reserva-topo {
+    gap: 14px;
+  }
+}
+
+@media (max-width: 520px) {
+  .dashboard-principal {
+    grid-template-columns: 1fr;
+  }
+  .hero-clean .hero-topo strong {
+    font-size: 40px;
+  }
+  .reserva-simples-card .reserva-topo > strong {
+    font-size: 48px;
+  }
+}

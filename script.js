@@ -61,6 +61,18 @@ function setTexto(id, valor) {
   if (el) el.textContent = valor;
 }
 
+function obterPrimeiroNome() {
+  const nome = (configuracoes.perfil && configuracoes.perfil.nome ? configuracoes.perfil.nome : "").trim();
+  return nome ? nome.split(/\s+/)[0] : "";
+}
+
+function atualizarSaudacaoUsuario() {
+  const hora = new Date().getHours();
+  const periodo = hora < 12 ? "Bom dia" : hora < 18 ? "Boa tarde" : "Boa noite";
+  const nome = obterPrimeiroNome();
+  setTexto("saudacaoUsuario", nome ? `${periodo}, ${nome}` : `${periodo}`);
+}
+
 function notificarSalvo(mensagem = "Salvo com sucesso.") {
   const aviso = document.getElementById("toastAviso");
   if (!aviso) return;
@@ -406,6 +418,19 @@ function salvarCaixaEmergencial() {
   atualizarTela();
 }
 
+
+function adicionarAporteCaixaEmergencial() {
+  const valor = parseValor(prompt("Quanto deseja adicionar ao Caixa Emergencial?"));
+  if (!valor || valor <= 0) return;
+  const cfg = configuracoes.caixaEmergencial || { tipoMeta: "fixo", valorMeta: 0, saldoAtual: 0, aportePercentual: 10 };
+  cfg.saldoAtual = (Number(cfg.saldoAtual) || 0) + valor;
+  configuracoes.caixaEmergencial = cfg;
+  salvarLocal();
+  carregarCaixaEmergencialNaTela();
+  atualizarTela();
+  notificarSalvo("Aporte adicionado ao Caixa Emergencial.");
+}
+
 function calcularCaixaEmergencial() {
   const cfg = configuracoes.caixaEmergencial || { tipoMeta: "fixo", valorMeta: 0, saldoAtual: 0, aportePercentual: 10 };
   const receitasFixas = obterTotalReceitasFixas();
@@ -438,7 +463,7 @@ function carregarCaixaEmergencialNaTela() {
 
 function atualizarCaixaEmergencial() {
   const r = calcularCaixaEmergencial();
-  const descricao = r.cfg.tipoMeta === "percentual" ? `Meta equivalente a ${r.cfg.valorMeta || 0}% das receitas fixas.` : r.cfg.tipoMeta === "meses" ? `Meta equivalente a ${r.cfg.valorMeta || 0} mês(es) de despesas fixas.` : "Meta definida em valor fixo.";
+  const descricao = r.faltam > 0 ? `Faltam ${formatarMoeda(r.faltam)} para completar sua reserva.` : "Reserva concluída. Excelente proteção financeira.";
   const ids = {
     reservaDescricao: descricao,
     reservaPercentual: `${Math.round(r.percentual)}%`,
@@ -705,8 +730,13 @@ function atualizarRelatorios() {
 function abrirOnboarding() {
   const modal = document.getElementById("onboardingModal");
   if (!modal) return;
+
   const nome = document.getElementById("onboardingNome");
+  const renda = document.getElementById("onboardingRenda");
+
   if (nome) nome.value = configuracoes.perfil?.nome || "";
+  if (renda && receitas.length === 1) renda.value = receitas[0]?.valor || "";
+
   modal.classList.remove("oculto");
 }
 
@@ -718,28 +748,17 @@ function fecharOnboarding() {
 function salvarOnboarding() {
   const nome = document.getElementById("onboardingNome").value.trim();
   const renda = parseValor(document.getElementById("onboardingRenda"));
-  const reserva = parseValor(document.getElementById("onboardingReserva"));
-  const objetivoNome = document.getElementById("onboardingObjetivo").value.trim();
-  const objetivoValor = parseValor(document.getElementById("onboardingObjetivoValor"));
+
+  if (!nome) return alert("Informe seu nome para continuar.");
+  if (renda <= 0) return alert("Informe sua renda mensal fixa para configurar o app.");
 
   configuracoes.perfil = { nome, onboardingConcluido: true };
 
-  if (renda > 0 && receitas.length === 0) {
-    receitas.push({ id: Date.now(), descricao: "Renda principal", valor: renda });
-  }
-
-  if (reserva > 0) {
-    configuracoes.caixaEmergencial = {
-      ...(configuracoes.caixaEmergencial || {}),
-      tipoMeta: "fixo",
-      valorMeta: reserva,
-      saldoAtual: configuracoes.caixaEmergencial?.saldoAtual || 0,
-      aportePercentual: configuracoes.caixaEmergencial?.aportePercentual || 10
-    };
-  }
-
-  if (objetivoNome && objetivoValor > 0 && objetivos.length === 0) {
-    objetivos.push({ id: Date.now() + 1, nome: objetivoNome, valorAlvo: objetivoValor, valorAtual: 0, aporteMensal: 0 });
+  const receitaOnboarding = receitas.find(item => item.origem === "onboarding");
+  if (receitaOnboarding) {
+    receitas = receitas.map(item => item.id === receitaOnboarding.id ? { ...item, descricao: "Renda mensal fixa", valor: renda } : item);
+  } else {
+    receitas.push({ id: Date.now(), descricao: "Renda mensal fixa", valor: renda, origem: "onboarding" });
   }
 
   salvarLocal();
@@ -756,7 +775,7 @@ function pularOnboarding() {
 }
 
 function exibirOnboardingSeNecessario() {
-  if (!configuracoes.perfil?.onboardingConcluido && receitas.length === 0 && despesas.length === 0 && objetivos.length === 0) {
+  if (!configuracoes.perfil?.onboardingConcluido) {
     setTimeout(abrirOnboarding, 350);
   }
 }
@@ -774,6 +793,7 @@ function limparDadosFinanceiro() {
 }
 
 function atualizarTela() {
+  atualizarSaudacaoUsuario();
   const comissoesMes = filtrarPorMes(comissoes);
   const parcelasMes = obterParcelasDoMes();
   atualizarSelectRendasExtras();
@@ -820,8 +840,10 @@ function atualizarDashboard(receitasFixas, comissoesMes, despesasFixas, parcelas
   setTexto("patrimonioVariacaoHero", saldo >= 0 ? `Resultado positivo de ${formatarMoeda(saldo)} no mês` : `Resultado negativo de ${formatarMoeda(Math.abs(saldo))} no mês`);
 
   const saldoEl = document.getElementById("saldoDisponivel");
-  saldoEl.classList.remove("positivo", "negativo");
-  saldoEl.classList.add(saldo >= 0 ? "positivo" : "negativo");
+  if (saldoEl) {
+    saldoEl.classList.remove("positivo", "negativo");
+    saldoEl.classList.add(saldo >= 0 ? "positivo" : "negativo");
+  }
 
   atualizarGrafico(entradas, saidas, Math.max(saldo, 0));
 }

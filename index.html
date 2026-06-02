@@ -55,19 +55,20 @@
 
     <section id="dashboard" class="aba">
       <div id="areaRelatorio">
-        <div class="hero-card">
+        <div class="hero-card hero-clean">
           <div class="hero-topo">
             <div>
-              <span class="eyebrow">Visão financeira</span>
+              <span class="eyebrow" id="saudacaoUsuario">Olá</span>
+              <h2>Patrimônio financeiro</h2>
               <strong id="patrimonioTotalHero">R$ 0,00</strong>
-              <small id="patrimonioVariacaoHero">Saldo, reserva, objetivos e investimentos em um só lugar</small>
+              <small id="patrimonioVariacaoHero">Seu resumo financeiro do mês</small>
             </div>
             <div class="hero-periodo">Este mês</div>
           </div>
-          <div class="hero-chart" id="heroChart"></div>
+          <div class="hero-chart hero-chart-oculto" id="heroChart"></div>
         </div>
 
-        <div class="smart-dashboard">
+        <div class="smart-dashboard dashboard-principal">
           <article>
             <span>Saldo do mês</span>
             <strong id="smartSaldoMes">R$ 0,00</strong>
@@ -90,71 +91,56 @@
           </article>
         </div>
 
-        <div class="cards">
-          <div class="card entrada"><span>Receitas fixas</span><strong id="receitasFixas">R$ 0,00</strong></div>
-          <div class="card comissao"><span>Rendas extras</span><strong id="comissaoMes">R$ 0,00</strong></div>
-          <div class="card aparelhos"><span>Lançamentos extras</span><strong id="aparelhosVendidos">0</strong></div>
-          <div class="card despesa"><span>Despesas fixas</span><strong id="despesasFixas">R$ 0,00</strong></div>
-          <div class="card parcela"><span>Parcelas do mês</span><strong id="parcelasMes">R$ 0,00</strong></div>
-          <div class="card reserva"><span>Caixa emergencial</span><strong id="reservaDashboard">R$ 0,00</strong></div>
-          <div class="card investimento"><span>Investimentos</span><strong id="investimentosDashboard">R$ 0,00</strong></div>
-          <div class="card objetivo"><span>Objetivos guardados</span><strong id="objetivosGuardados">R$ 0,00</strong></div>
-          <div class="card saldo"><span>Saldo disponível</span><strong id="saldoDisponivel">R$ 0,00</strong></div>
+        <div class="acao-card dashboard-acoes">
+          <div>
+            <span class="eyebrow">Próximos passos</span>
+            <h2>Configure o essencial</h2>
+            <p>Use os atalhos abaixo para deixar o Financeiro+ pronto para acompanhar sua vida financeira.</p>
+          </div>
+          <div class="atalhos-grid">
+            <button type="button" onclick="mostrarAba('caixa')" class="btn-secundario">Configurar caixa</button>
+            <button type="button" onclick="mostrarAba('objetivos')" class="btn-secundario">Criar objetivo</button>
+            <button type="button" onclick="mostrarAba('investimentos')" class="btn-secundario">Adicionar investimento</button>
+          </div>
         </div>
 
-        <div class="reserva-card dashboard-reserva">
-          <div class="reserva-topo">
-            <div>
-              <h2>Caixa Emergencial</h2>
-              <p>Reserva calculada com base nas receitas fixas cadastradas e no objetivo configurado.</p>
-            </div>
-            <strong id="reservaPercentualDashboard">0%</strong>
-          </div>
-          <div class="reserva-grid">
-            <div><span>Meta da reserva</span><strong id="reservaMetaDashboard">R$ 0,00</strong></div>
-            <div><span>Despesas mensais</span><strong id="reservaDespesasDashboard">R$ 0,00</strong></div>
-            <div><span>Valor reservado</span><strong id="reservaAtualDashboard">R$ 0,00</strong></div>
-            <div><span>Valor faltante</span><strong id="reservaFaltanteDashboard">R$ 0,00</strong></div>
-            <div><span>Aporte sugerido</span><strong id="reservaAporteDashboard">R$ 0,00</strong></div>
-          </div>
-          <div class="meta-barra"><div id="barraReservaDashboard"></div></div>
-        </div>
-
-        <div class="grafico-card">
+        <div class="grafico-card resumo-clean">
           <h2>Resumo do mês</h2>
           <div class="linha-grafico"><span>Entradas</span><div class="barra"><div id="barraEntradas"></div></div><strong id="labelEntradas">R$ 0,00</strong></div>
           <div class="linha-grafico"><span>Saídas</span><div class="barra"><div id="barraDespesas"></div></div><strong id="labelDespesas">R$ 0,00</strong></div>
           <div class="linha-grafico"><span>Saldo</span><div class="barra"><div id="barraSaldo"></div></div><strong id="labelSaldo">R$ 0,00</strong></div>
         </div>
 
-        <div class="patrimonio-card">
-          <div class="patrimonio-topo">
-            <div>
-              <h2>Evolução patrimonial</h2>
-              <p>Projeção acumulada a partir do saldo mensal, da reserva e dos objetivos cadastrados.</p>
-            </div>
+        <div class="dashboard-tecnico oculto">
+          <div class="cards">
+            <div class="card entrada"><span>Receitas fixas</span><strong id="receitasFixas">R$ 0,00</strong></div>
+            <div class="card comissao"><span>Rendas extras</span><strong id="comissaoMes">R$ 0,00</strong></div>
+            <div class="card aparelhos"><span>Lançamentos extras</span><strong id="aparelhosVendidos">0</strong></div>
+            <div class="card despesa"><span>Despesas fixas</span><strong id="despesasFixas">R$ 0,00</strong></div>
+            <div class="card parcela"><span>Parcelas do mês</span><strong id="parcelasMes">R$ 0,00</strong></div>
+            <div class="card reserva"><span>Caixa emergencial</span><strong id="reservaDashboard">R$ 0,00</strong></div>
+            <div class="card investimento"><span>Investimentos</span><strong id="investimentosDashboard">R$ 0,00</strong></div>
+            <div class="card objetivo"><span>Objetivos guardados</span><strong id="objetivosGuardados">R$ 0,00</strong></div>
+            <div class="card saldo"><span>Saldo disponível</span><strong id="saldoDisponivel">R$ 0,00</strong></div>
           </div>
-          <div id="graficoPatrimonio" class="patrimonio-grafico"></div>
-        </div>
-
-        <div class="investimentos-card dashboard-investimentos">
-          <div class="investimentos-topo">
-            <div>
-              <h2>Investimentos</h2>
-              <p>Carteira estimada com base na quantidade cadastrada e na última cotação informada ou consultada.</p>
-            </div>
+          <div class="reserva-card dashboard-reserva">
+            <strong id="reservaPercentualDashboard">0%</strong>
+            <strong id="reservaMetaDashboard">R$ 0,00</strong>
+            <strong id="reservaDespesasDashboard">R$ 0,00</strong>
+            <strong id="reservaAtualDashboard">R$ 0,00</strong>
+            <strong id="reservaFaltanteDashboard">R$ 0,00</strong>
+            <strong id="reservaAporteDashboard">R$ 0,00</strong>
+            <div class="meta-barra"><div id="barraReservaDashboard"></div></div>
+          </div>
+          <div class="patrimonio-card"><div id="graficoPatrimonio" class="patrimonio-grafico"></div></div>
+          <div class="investimentos-card dashboard-investimentos">
             <strong id="investimentosTotalDashboard">R$ 0,00</strong>
-          </div>
-          <div class="investimentos-resumo">
             <div id="graficoPizzaInvestimentos" class="donut-chart"><span>0%</span></div>
             <div id="listaResumoInvestimentos" class="investimentos-legenda"></div>
           </div>
+          <div class="objetivos-card"><div id="listaObjetivosDashboard" class="objetivos-dashboard"></div></div>
         </div>
 
-        <div class="objetivos-card">
-          <h2>Objetivos financeiros</h2>
-          <div id="listaObjetivosDashboard" class="objetivos-dashboard"></div>
-        </div>
 
       </div>
     </section>
@@ -228,46 +214,37 @@
     </section>
 
     <section id="caixa" class="aba oculto">
-      <div class="painel caixa-painel">
+            <div class="painel caixa-painel caixa-simples">
         <span class="eyebrow">Reserva de segurança</span>
         <h2>Caixa Emergencial</h2>
-        <p class="aviso painel-descricao">Acompanhe quanto você já tem guardado e quanto ainda falta para proteger sua família em meses difíceis.</p>
+        <p class="aviso painel-descricao">Defina uma meta em reais, informe quanto já tem guardado e acompanhe o quanto falta para completar sua reserva.</p>
 
-        <div class="reserva-card reserva-destaque">
+        <div class="reserva-card reserva-destaque reserva-simples-card">
           <div class="reserva-topo">
             <div>
-              <h2>Status da reserva</h2>
-              <p id="reservaDescricao">Escolha como deseja calcular a meta e informe o valor já guardado.</p>
+              <span class="eyebrow">Reserva atual</span>
+              <strong id="reservaAtual">R$ 0,00</strong>
+              <p id="reservaDescricao">Configure sua reserva para iniciar o acompanhamento.</p>
             </div>
             <strong id="reservaPercentual">0%</strong>
           </div>
           <div class="meta-barra"><div id="barraReserva"></div></div>
           <div class="reserva-grid reserva-grid-principal">
             <div><span>Meta final</span><strong id="reservaMeta">R$ 0,00</strong></div>
-            <div><span>Guardado hoje</span><strong id="reservaAtual">R$ 0,00</strong></div>
             <div><span>Ainda falta</span><strong id="reservaFaltam">R$ 0,00</strong></div>
+            <div><span>Aporte mensal sugerido</span><strong id="reservaAporte">R$ 0,00</strong></div>
             <div><span>Previsão</span><strong id="reservaPrevisao">Sem previsão</strong></div>
           </div>
+          <button type="button" onclick="adicionarAporteCaixaEmergencial()" class="btn-secundario btn-aporte-reserva">Adicionar aporte</button>
         </div>
 
-        <div class="caixa-guia">
-          <div><strong>1. Escolha a meta</strong><span>Valor fixo, meses de despesas ou porcentagem das receitas.</span></div>
-          <div><strong>2. Informe o guardado</strong><span>Digite quanto você já tem reservado hoje.</span></div>
-          <div><strong>3. Defina o aporte</strong><span>Escolha quanto das receitas fixas será separado por mês.</span></div>
-        </div>
-
-        <div class="formulario caixa-form formulario-com-label">
+        <div class="formulario caixa-form formulario-com-label caixa-form-simples">
+          <select id="reservaTipoMeta" class="campo-oculto-tecnico" aria-hidden="true" tabindex="-1">
+            <option value="fixo">Meta em valor fixo</option>
+          </select>
           <label>
-            <span>Como calcular a meta?</span>
-            <select id="reservaTipoMeta">
-              <option value="fixo">Quero informar um valor final</option>
-              <option value="meses">Quero guardar X meses de despesas</option>
-              <option value="percentual">Quero usar uma % das receitas fixas</option>
-            </select>
-          </label>
-          <label>
-            <span>Meta desejada</span>
-            <input type="text" inputmode="decimal" id="reservaValorMeta" placeholder="Ex: 30000, 6 ou 300%">
+            <span>Meta da reserva</span>
+            <input type="text" inputmode="decimal" id="reservaValorMeta" placeholder="Ex: 30000">
           </label>
           <label>
             <span>Valor já guardado</span>
@@ -280,15 +257,15 @@
           <button type="button" onclick="salvarCaixaEmergencial()">Salvar reserva</button>
         </div>
 
-        <div class="reserva-card reserva-detalhes">
+        <div class="reserva-card reserva-detalhes detalhes-discretos">
           <h2>Base do cálculo</h2>
           <div class="reserva-grid">
             <div><span>Receitas fixas cadastradas</span><strong id="reservaReceitas">R$ 0,00</strong></div>
             <div><span>Despesas fixas mensais</span><strong id="reservaDespesas">R$ 0,00</strong></div>
-            <div><span>Aporte mensal calculado</span><strong id="reservaAporte">R$ 0,00</strong></div>
           </div>
         </div>
       </div>
+
     </section>
 
     <section id="investimentos" class="aba oculto">
@@ -403,13 +380,10 @@
   <div class="onboarding-card">
     <span class="eyebrow">Primeiro acesso</span>
     <h2 id="onboardingTitulo">Bem-vindo ao Financeiro+</h2>
-    <p>Configure o básico para o aplicativo começar com uma visão mais útil da sua vida financeira.</p>
-    <div class="formulario onboarding-form">
+    <p>Informe apenas o essencial. A renda mensal cadastrada aqui será adicionada automaticamente em Receitas Fixas.</p>
+    <div class="formulario onboarding-form onboarding-form-simples">
       <input type="text" id="onboardingNome" placeholder="Seu nome">
-      <input type="text" inputmode="decimal" id="onboardingRenda" placeholder="Renda mensal inicial">
-      <input type="text" inputmode="decimal" id="onboardingReserva" placeholder="Meta de reserva emergencial">
-      <input type="text" id="onboardingObjetivo" placeholder="Primeiro objetivo, ex: Apartamento">
-      <input type="text" inputmode="decimal" id="onboardingObjetivoValor" placeholder="Valor alvo do objetivo">
+      <input type="text" inputmode="decimal" id="onboardingRenda" placeholder="Sua renda mensal fixa">
     </div>
     <div class="onboarding-actions">
       <button type="button" onclick="salvarOnboarding()">Começar agora</button>

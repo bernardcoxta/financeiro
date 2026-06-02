@@ -1,15 +1,12 @@
-# Financeiro+ v11 Produto
+# Financeiro+ v14 - Home Clean
 
-Atualização em cima da base funcional enviada pelo Bernard.
+Atualização focada em usabilidade mobile:
 
-## Inclui
-- Menu único no mobile, sem barra inferior.
-- Onboarding de primeiro acesso.
-- Dashboard inteligente.
-- Relatórios mensais.
-- Backup/exportação/importação mantidos.
-- Investimentos manuais mantidos.
-- Manifest e Capacitor preparados para Android/iOS.
+- Home mais limpa e objetiva
+- Remoção dos blocos técnicos da Visão Geral
+- Caixa Emergencial simplificado
+- Botão de aporte rápido para reserva
+- Menu único mantido
+- Onboarding simples mantido
 
-## Como publicar no GitHub Pages
-Envie todos os arquivos desta pasta para a raiz do repositório e mantenha o GitHub Pages apontando para `main / root`.
+Substitua os arquivos do repositório pelos arquivos deste pacote.
